@@ -1,30 +1,35 @@
 package com.spring.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "documents")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
-public class Document extends BaseEntity{
-    private String name;
+@SuperBuilder
+public class Document extends BaseEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "folder_id")
-    private Folder folder;
+  @Column(nullable = false)
+  private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "folder_id", nullable = false)
+  private Folder folder;
 
-    private String objectKey;
-    private Long size;
-    private String mimeType;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "owner_id", nullable = false)
+  private User owner;
+
+  @Column(name = "object_key", nullable = false, length = 512)
+  private String objectKey;
+
+  @Column(nullable = false)
+  private Long size;
+
+  @Column(name = "mime_type", length = 100)
+  private String mimeType;
 }

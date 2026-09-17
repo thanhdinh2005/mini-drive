@@ -1,27 +1,26 @@
 package com.spring.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "folders")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
-public class Folder extends BaseEntity{
+@SuperBuilder
+public class Folder extends BaseEntity {
+
+  @Column(nullable = false)
   private String name;
 
-  @ManyToOne
-  @JoinColumn(name = "owner_id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "owner_id", nullable = false)
   private User owner;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "parent_folder_id")
   private Folder parentFolder;
-
 }
