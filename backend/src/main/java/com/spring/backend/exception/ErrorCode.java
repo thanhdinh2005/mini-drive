@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
+
   // ===== User =====
   USER_NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_USER_001", "User not found"),
   USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "ERR_USER_002", "Email already exists"),
@@ -25,9 +26,14 @@ public enum ErrorCode {
     "Must specify either a user or generate a public link, not both"),
   CANNOT_SHARE_WITHOUT_OWNERSHIP(HttpStatus.FORBIDDEN, "ERR_PERM_003", "Only the owner can share this folder"),
 
-  // ===== Validate & fallback =====
-  VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "ERR_REQ_400", "Invalid request"),
-  INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "ERR_SYS_500", "An unexpected error occurred. Please try again later.");
+  // ===== Request / fallback =====
+  VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "ERR_REQ_001", "Invalid request"),
+  MALFORMED_REQUEST(HttpStatus.BAD_REQUEST, "ERR_REQ_002", "Malformed request body"),
+  METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "ERR_REQ_003", "HTTP method not supported"),
+  NOT_FOUND(HttpStatus.NOT_FOUND, "ERR_REQ_004", "Resource not found"),
+
+  // ===== System =====
+  INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "ERR_SYS_001", "An unexpected error occurred. Please try again later.");
 
   private final HttpStatus httpStatus;
   private final String code;
